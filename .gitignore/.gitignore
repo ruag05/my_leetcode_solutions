@@ -1,0 +1,4 @@
+#ignore all types of files
+*
+#except java files
+!*.java
