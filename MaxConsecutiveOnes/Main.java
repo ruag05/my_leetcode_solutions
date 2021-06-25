@@ -6,8 +6,19 @@ public class Main {
           int[] nums = new int[]{1,0,1,1,0,0,1,1,1,0,0,0,0,1,1,0,1};
           System.out.println(findMaxConsecutiveOnes(nums));
     }
-
-    public static int findMaxConsecutiveOnes(int[] nums){
+    public int findMaxConsecutiveOnes(int[] nums) { //gives best performance
+        int max = 0;
+        int maxLocal = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] == 1)
+                maxLocal++;
+            else
+                maxLocal = 0;
+            max = maxLocal > max ? maxLocal : max;
+        }
+        return max;
+    }
+    public static int findMaxConsecutiveOnes_1(int[] nums){
        int max = 0;
        int maxLocal = 0;
         for(int i = 0; i < nums.length; i++){
@@ -21,19 +32,19 @@ public class Main {
         }
         return max;
     }
-    public static int findMaxConsecutiveOnes1(int[] nums) {
+    public static int findMaxConsecutiveOnes_2(int[] nums) {
         int max = 0;
         int maxLocal = 0;
         for(int i = 0; i < nums.length; i++){
             if(nums[i] == 1)
-                //concises line 15-17 into 1
+                //concises line 26-28 into 1
                 max = Math.max(++maxLocal, max);
             else
                 maxLocal = 0;
         }
         return max;
     }
-    public static int findMaxConsecutiveOnes2(int[] nums) {
+    public static int findMaxConsecutiveOnes_3(int[] nums) {
         int max = 0;
         int maxLocal = 0;
         for(int i : nums){
@@ -43,13 +54,14 @@ public class Main {
         }
         return max;
     }
-    public static int findMaxConsecutiveOnes3(int[] nums) {
+    public static int findMaxConsecutiveOnes_4(int[] nums) {
         int max = 0;
         int maxLocal = 0;
         for(int i : nums){
-            //concises line 40-42
+            //concises line 51-53
             max = Math.max(max, maxLocal = (i == 0)? 0: ++maxLocal);
         }
         return max;
     }
+    
 }
