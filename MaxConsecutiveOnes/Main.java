@@ -1,10 +1,13 @@
 package com.leetcode_solutions.ruchir;
 
+//PROBLEM
+//  -Given a binary array nums, return the maximum number of consecutive 1's in the array.
+
 public class Main {
 
     public static void main(String[] args) {
           int[] nums = new int[]{1,0,1,1,0,0,1,1,1,0,0,0,0,1,1,0,1};
-          System.out.println(findMaxConsecutiveOnes(nums));
+          System.out.println(findMaxConsecutiveOnes(nums)); //use any of the following method to get the output
     }
     public int findMaxConsecutiveOnes(int[] nums) { //gives best performance
         int max = 0;
@@ -18,7 +21,7 @@ public class Main {
         }
         return max;
     }
-    public static int findMaxConsecutiveOnes_1(int[] nums){
+    public static int findMaxConsecutiveOnes_1(int[] nums){ //first iteration of the approach
        int max = 0;
        int maxLocal = 0;
         for(int i = 0; i < nums.length; i++){
@@ -32,7 +35,7 @@ public class Main {
         }
         return max;
     }
-    public static int findMaxConsecutiveOnes_2(int[] nums) {
+    public static int findMaxConsecutiveOnes_2(int[] nums) { //second iteration of the approach
         int max = 0;
         int maxLocal = 0;
         for(int i = 0; i < nums.length; i++){
@@ -44,7 +47,7 @@ public class Main {
         }
         return max;
     }
-    public static int findMaxConsecutiveOnes_3(int[] nums) {
+    public static int findMaxConsecutiveOnes_3(int[] nums) { //third iteration of the approach
         int max = 0;
         int maxLocal = 0;
         for(int i : nums){
@@ -54,7 +57,7 @@ public class Main {
         }
         return max;
     }
-    public static int findMaxConsecutiveOnes_4(int[] nums) {
+    public static int findMaxConsecutiveOnes_4(int[] nums) { //fourth iteration of the approach
         int max = 0;
         int maxLocal = 0;
         for(int i : nums){
