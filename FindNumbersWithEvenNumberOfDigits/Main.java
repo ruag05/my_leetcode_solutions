@@ -49,4 +49,11 @@ public class Main {
         }
         return evenDigitNumbers;
     }
+    public static int findNumbers_3(int[] nums) { //same performance as second iteration
+        int count = 0;
+        for(int number : nums){
+            count = (String.valueOf(number).length() % 2 == 0) ? ++count: count ;
+        }
+        return count;
+    }
 }
