@@ -18,14 +18,16 @@ public class Main {
     //  input array in-place with O(1) extra memory.
 
     public static void main(String[] args){
-        int[] nums = new int[]{1,2,1,2,2,3,4,2,5,1,2};
-        System.out.println(removeElement(nums, 2));
+        int[] nums = new int[]{0,1,2,3,3,2,1,2,0};
+        System.out.println(removeElement2(nums, 2));
     }
+
+    //took 0 ms (100 percentile) and 37.2 MB (97 percentile)
     public static int removeElement(int[] nums, int val){
         int k = nums.length - 1;
         for(int i = 0; i <= k; i++){
             if(nums[i] == val){
-                while(k > i) {
+                while(k >= i) {
                     if (nums[k] != val) {
                         nums[i] = nums[k];
                         k--;
@@ -34,11 +36,22 @@ public class Main {
                         k--;
                     }
                 }
-                if(k == i && nums[i] == val){
-                    k--;
-                }
             }
         }
         return k + 1;
+    }
+
+    //took 0 ms (100 percentile) and 37.4 MB (75 percentile)
+    public static int removeElement2(int[] nums, int val){
+        int i = 0;
+        for(int j = 0; j < nums.length; j++){
+            if(nums[j] != val){
+                int temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+                i++;
+            }
+        }
+        return i;
     }
 }
