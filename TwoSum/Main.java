@@ -15,6 +15,7 @@ public class Main {
         System.out.println(twoSum(nums, target);
     }
 
+    //took 1 ms (85 percentile) and 38.9 MB (90 percentile)
     public static int[] twoSum(int[] nums, int target) {
         HashMap<Integer, Integer> dict = new HashMap<Integer, Integer>();
         for(int i = 0; i < nums.length; i++){
