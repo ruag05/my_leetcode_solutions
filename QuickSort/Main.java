@@ -30,20 +30,24 @@ public class Main {
         nums[end] = pivot;
 
         //partition the sub-array into further sub-arrays where
-        //the elements to the left of the pivot are less than the pivot and
-        //the elements to the right of the pivot are greater than the pivot
-        int pivotPointer = 0;
-        for(int i = 0; i < nums.length - 1; i++){
+        //the elements to the left of the pivot are less than the pivot (and inherently
+        //the elements to the right of the pivot are greater than the pivot)
+        int pivotPointer = start;
+        for(int i = start; i < end; i++){
+            
+            //traverse the array so all the elements less than pivot comes to the start of the array
             if(nums[i] < pivot){
                 int tempVar2 = nums[pivotPointer];
                 nums[pivotPointer] = nums[i];
                 nums[i] = tempVar2;
                 pivotPointer ++;
             }
-            if(nums[pivotPointer] > pivot){
-                nums[end] = nums[pivotPointer];
-                nums[pivotPointer] = pivot;
-            }
+        }
+        
+        //finally, bring the pivot back and place it next to the last element with smaller value
+        if(nums[pivotPointer] > nums[end]){
+            nums[end] = nums[pivotPointer];
+            nums[pivotPointer] = pivot;
         }
         return pivotPointer;
     }
