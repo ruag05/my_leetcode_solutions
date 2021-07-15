@@ -40,6 +40,15 @@ public class Main {
         }
         return k + 1;
     }
+    
+    //took 0 ms (100 percentile) and 37.4 MB (87 percentile) (simpler version of the above approach)
+    public int removeElement(int[] nums, int val) {
+       int j = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] != val) nums[j++] = nums[i];   
+        }
+        return j;
+    }
 
     //took 0 ms (100 percentile) and 37.4 MB (75 percentile)
     public static int removeElement2(int[] nums, int val){
