@@ -1,7 +1,7 @@
 package com.company;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.HashSet;
 
 public class ListNode{
     int val;
@@ -12,51 +12,52 @@ public class ListNode{
     }
 }
 
-public class LinkedListCycleII {
-    public static void main(String[] args) {
+public class LinkedListCycle {
+
+    //PROBLEM : Linked List Cycle II
+    //  -Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
+    //
+    //  -There is a cycle in a linked list if there is some node in the list that can be reached again by continuously
+    //  following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer
+    //  is connected to. Note that pos is not passed as a parameter.
+    //
+    //  -Notice that you should not modify the linked list.
+    //
+    //  -Constraints:
+    //      The number of the nodes in the list is in the range [0, 104].
+    //      -105 <= Node.val <= 105
+    //      pos is -1 or a valid index in the linked-list
+
+    public static void main(String[] args){
 
     }
 
-    //took 4 ms (15 percentile) and 40 MB (28 percentile) (uses HashSet to throw the node as soon as the duplicate node
-    //is encountered
-    public ListNode detectCycle(ListNode head){
-        if(head == null) return null;
+    //took 0 ms (100 percentile) and 39.8 MB (79 percentile) (uses two pointers, slow and fast, to detect whether
+    //at any point they're equal
+    public boolean hasCycle(ListNode head){
+        if(head == null) return false;
 
-        Set<ListNode> visitedNodes = new HashSet<>();
-        ListNode currNode = head;
-        while(currNode != null) {
-            if(visitedNodes.contains(currNode)){
-                return currNode;
-            }
-            visitedNodes.add(currNode);
-            currNode = currNode.next;
-        }
-        return null;
-    }
-
-    //took 0 ms (100 percentile) and 388 MB (92 percentile) (uses fast and slow pointer to first detect the intersection
-    //then to again iterate the linked list, with one pointer at start and other from intersection
-    public static ListNode detectCycle2(ListNode head){
-        if(head == null) return null;
-
-        ListNode intersectNode = getIntersection(head);
-        if(intersectNode == null) return null;
-
-        ListNode currNode = head;
-        while(currNode != intersectNode) {
-            currNode = currNode.next;
-            intersectNode = intersectNode.next;
-        }
-        return intersectNode;
-    }
-    public static ListNode getIntersection(ListNode head){
         ListNode slowNode = head;
-        ListNode fastNode = head;
-        while(fastNode != null && fastNode.next != null){
+        ListNode fastNode = head.next;
+        while(slowNode != fastNode){
+            if(fastNode == null || fastNode.next == null) return false;
             slowNode = slowNode.next;
             fastNode = fastNode.next.next;
-            if(slowNode == fastNode) return slowNode;
         }
-        return null;
+        return true;
+    }
+
+    //took 4 ms (19 percentile) and 39 MB (99.7 percentile) (uses HashSet to keep track if we are tracking any node
+    //twice)
+    public boolean hasCycle2(ListNode head){
+        if(head == null) return false;
+
+        HashSet<ListNode> set = new HashSet<ListNode>();
+        do{
+            if(set.contains(head)) return true;
+            set.add(head);
+            head = head.next;
+        } while(head != null);
+        return false;
     }
 }
