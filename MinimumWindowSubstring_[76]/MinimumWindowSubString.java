@@ -55,12 +55,9 @@ public class MinimumWindowSubString {
                     if(left == 0) res = s.substring(left, right + 1);
                     else res = s.substring(left, left + minLen);
                 }
-                if(!mapT.containsKey(chL) || mapS.get(chL) > mapT.get(chL)){
-                   mapS.put(chL, mapS.get(chL)- 1);
-                } else if(mapT.containsKey(chL)){
+                if(mapT.containsKey(chL) && mapS.get(chL) <= mapT.get(chL))
                     counter--;
-                    mapS.put(chL, mapS.get(chL)- 1);
-                }
+                mapS.put(chL, mapS.get(chL)- 1);
                 left++;
             }
         }
