@@ -10,14 +10,14 @@ public class LongestSubstringWithoutRepeatingCharacters {
     //  s consists of English letters, digits, symbols and spaces
 
     public static void main(String[] args) {
-        String s = "abcabcbb";
-        System.out.println(lengthOfLongestSubstring(s));
+        String s = "abcabcba";
+        System.out.println(lengthOfLongestSubstring2(s));
     }
 
     // time complexity: O(n)
     // space complexity: O(n)
     //Sliding window - store the characters with their latest index in HashMap and as soon as a repeating character is
-    //found, find the latest index of that element in HashMap and remove all elements till that index, from hashmap
+    //found, find the latest index of that element in HashMap and move the left pointer ahead of that
     //took 5 ms (79 percentile) and 38.9 MB (90 percentile)
     public static int lengthOfLongestSubstring(String s) {
         if(s.length() <= 1) return s.length();
@@ -34,5 +34,34 @@ public class LongestSubstringWithoutRepeatingCharacters {
         }
 
         return maxLength;
+    }
+
+    // time complexity: O(n)
+    // space complexity: O(n)
+    //[Sliding Window] Store the characters with their latest index in array and as soon as a repeating character is
+    //found, find the latest index of that element in array and move the left pointer ahead of that
+    //took 2 ms (99.9 percentile) and 39 MB (72 percentile)
+    public static int lengthOfLongestSubstring2(String s) {
+        Integer[] totalCh = new Integer[128];
+
+        int leftP = 0;
+        int rightP = 0;
+
+        int res = 0;
+        while (rightP < s.length()) {
+            char chR = s.charAt(rightP);
+
+            Integer index = totalCh[chR];
+            if (index != null && index >= leftP) {
+                leftP = index + 1;
+            }
+
+            res = Math.max(res, rightP - leftP + 1);
+
+            totalCh[chR] = rightP;
+            rightP++;
+        }
+
+        return res;
     }
 }
