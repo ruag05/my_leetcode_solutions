@@ -37,8 +37,8 @@ class MovingAverage {
 
     public double next(int val) {
         if(queue.size() >= maxSize)
-            sum -= queue.remove();
-        queue.add(val);
+            sum -= queue.poll();
+        queue.offer(val);
         sum += val;
         return (double)sum / queue.size();
     }
