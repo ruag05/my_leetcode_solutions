@@ -1,3 +1,8 @@
+import java.util.Arrays;
+import java.util.List;
+import java.util.Queue;
+import java.util.LinkedList;
+
 public class NumberOfIslands {
 
     //PROBLEM: Number of Islands
@@ -17,7 +22,7 @@ public class NumberOfIslands {
                 {'0','0','1','0','0'},
                 {'0','0','0','1','1'}
         };
-        System.out.println(numIslands(grid));
+        System.out.println(numIslands2(grid));
     }
 
     // time complexity: O(m*n)
@@ -59,5 +64,44 @@ public class NumberOfIslands {
         dfs(grid, i, j + 1);
         //go left
         dfs(grid, i, j - 1);
+    }
+
+    // time complexity: O(mn)
+    // space complexity: O(mn)
+    //  [Queue] Traverse the grid and as soon as a '1' is encountered, place it in Queue. And for all its adjacent cells
+    //  that are equal to 1, make them 0 and add them also to queue
+    //  took 5 ms (12 percentile) and 41.2 MB (89 percentile)
+    static List<int[]> directions = Arrays.asList(
+            new int[]{0, 1},
+            new int[]{0, -1},
+            new int[]{1, 0},
+            new int[]{-1, 0}
+    );
+    public static int numIslands2(char[][] grid){
+        int count = 0;
+        Queue<int[]> q = new LinkedList<>();
+        for(int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j] == '1') {
+                    count++;
+                    grid[i][j] = '0';
+                    q.offer(new int[]{i, j});
+                    while(!q.isEmpty()){
+                        int[] org = q.poll();
+                        int orgR = org[0];
+                        int orgC = org[1];
+                        for(int[] dir : directions){
+                            int newR = orgR + dir[0];
+                            int newC = orgC + dir[1];
+                            if(newR < 0 || newC < 0 || newR >= grid.length || newC >= grid[newR].length || grid[newR][newC] != '1') continue;
+                            grid[newR][newC] = '0';
+                            q.offer(new int[]{newR, newC});
+                        }
+                    }
+                }
+            }
+        }
+
+        return count;
     }
 }
