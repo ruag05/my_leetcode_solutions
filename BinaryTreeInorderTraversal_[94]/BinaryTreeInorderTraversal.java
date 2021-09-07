@@ -15,6 +15,7 @@ class TreeNode1 {
       }
  }
 public class BinaryTreeInorderTraversal {
+
     //PROBLEM: Binary Tree Inorder Traversal
     //  Given the root of a binary tree, return the inorder traversal of its nodes' values.
     //Constraints:
@@ -36,100 +37,89 @@ public class BinaryTreeInorderTraversal {
         nC.left = nF;
         nC.right = nG;
 
-        for(int num : inorderTraversal4(nA))
+        for(int num : inorderTraversal3(nA))
             System.out.println(num);
     }
 
     // time complexity: O(n)
-    // space complexity: O(n) (including call stack)
-    //[Recursion]
-    //took 1 ms (8 percentile) and 39.3 MB (7 percentile)
-    static List<Integer> res;
-    public static List<Integer> inorderTraversal(TreeNode1 root) {
-        res = new ArrayList<>();
-        if(root == null) return res;
-        dfs(root);
+    // space complexity: O(n) [including system call stack]
+    //[Recursion] Start from the root node and since it is InOrder, do not add root node to result, instead go it to its
+    //left child recursively and then add the current node. Finally, go to the right child recursively
+    //took 0 ms (100 percentile) and 38.7 MB (20 percentile)
+    public static List<Integer> inorderTraversal(TreeNode1 root){
+        List<Integer> res = new ArrayList<>();
+        if(root != null){
+            inOrder(root, res);
+        }
+
         return res;
     }
-    public static void dfs(TreeNode1 node){
+    public static void inOrder(TreeNode1 node, List<Integer> list){
         if(node != null){
-            TreeNode1 currNode = node;
-            if(currNode.left != null) dfs(currNode.left);
-            res.add(currNode.val);
-            if(currNode.right != null) dfs(currNode.right);
+            if(node.left != null) inOrder(node.left, list);
+            list.add(node.val);
+            if(node.right != null) inOrder(node.right, list);
         }
     }
 
-    // time complexity: O(n)
-    // space complexity: O(n)
-    //[Iteratively - Stack]
-    //took 1 ms (8 percentile) and 39.3 MB (7 percentile)
-    public static List<Integer> inorderTraversal2(TreeNode1 root) {
-        Stack<TreeNode1> stack = new Stack<>();
-        List<Integer> res = new ArrayList<>();
-        TreeNode1 currNode = root;
-        while(currNode != null || !stack.isEmpty()) {
-            while (currNode != null) {
-                stack.push(currNode);
-                currNode = currNode.left;
-            }
-            currNode = stack.pop();
-            res.add(currNode.val);
-            currNode = currNode.right;
-        }
 
-        return res;
-    }
-
-    // time complexity: O(n)
-    // space complexity: O(n)
-    //[Iteratively - Stack] Same as above just the implementation is more intuitive
-    //took 1 ms (8 percentile) and 39.3 MB (7 percentile)
-    public static List<Integer> inorderTraversal3(TreeNode1 root) {
-        Stack<TreeNode1> stack = new Stack<>();
+    //  time complexity: O(n)
+    //  space complexity: O(n)
+    //[Iteratively - Stack] Check if the current node is null/not.
+    //              -If not, then push it onto stack (as we need to check for its left child first) and make left child
+    //              as current node.
+    //              -Else, if current node was null (it means that we crossed the leaf node) then pop the element, add it
+    //              to result (as it will actually be the left child) and make its right child as the current node.
+    //If at this point, there is a right child, then repeat the above steps (as it is a subtree) else pop the element (as
+    //it was actually the right child and now we need to go one level up)
+    //took 1 ms (14 percentile) and 38.8 MB (14 percentile)
+    public static List<Integer> inorderTraversal2(TreeNode1 root){
         List<Integer> res = new ArrayList<>();
-        TreeNode1 currNode = root;
-        while(currNode != null || !stack.isEmpty()) {
-            if(currNode != null) {
-                stack.push(currNode);
-                currNode = currNode.left;
-            } else {
-                currNode = stack.pop();
-                res.add(currNode.val);
-                currNode = currNode.right;
+        Stack<TreeNode1> stack = new Stack<>();
+
+        TreeNode1 curr = root;
+        while(curr != null || !stack.isEmpty()){
+            if(curr != null){
+                stack.push(curr);
+                curr = curr.left;
+            } else{
+                curr = stack.pop();
+                res.add(curr.val);
+                curr = curr.right;
             }
         }
 
         return res;
     }
 
-    // time complexity: O(n)
-    // space complexity: O(n)
-    //[Morris Traversal] In this approach, if the left child to the current node exists then we find the rightmost node
+    //  time complexity: O(n)
+    //  space complexity: O(n)
+    //[Morris Traversal] In this approach, if the left child of the current node exists then we find the rightmost node
     //in that left subtree and then make the current node as its right child. Also, we make the left child as the new
     //current node and also, make the left child of old current node to null (very important to actually do the displacement
-    //without this step the nodes will only be copied, so it is important to remove the nodes from their previous place.[it
-    //works as it is pass by reference])
+    //without this step the nodes will only be copied, so it is important to remove the nodes from their previous place.
+    //[it works as in this way as it is pass by reference])
     //took 0 ms (100 percentile) and 37.1 MB (77 percentile)
-    public static List<Integer> inorderTraversal4(TreeNode1 root){
+    public static List<Integer> inorderTraversal3(TreeNode1 root){
         List<Integer> res = new ArrayList<>();
-        TreeNode1 currNode = root;
-        TreeNode1 pre;
-        while(currNode != null) {
-            if (currNode.left == null) {
-                res.add(currNode.val);
-                currNode = currNode.right;
-            } else {
-                pre = currNode.left;
-                while (pre.right != null) {
-                    pre = pre.right;
+        if(root == null) return res;
+
+        TreeNode1 curr = root;
+        while(curr != null) {
+            if (curr.left != null) {
+                TreeNode1 left = curr.left;
+                while (left.right != null) {
+                    left = left.right;
                 }
-                pre.right = currNode;
-                TreeNode1 temp = currNode;
-                currNode = currNode.left;
+                left.right = curr;
+
+                TreeNode1 temp = curr;
+                curr = curr.left;
                 temp.left = null;
+            } else {
+                res.add(curr.val);
+                curr = curr.right;
             }
         }
         return res;
     }
-}
