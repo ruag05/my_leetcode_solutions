@@ -14,6 +14,7 @@ public class Main {
         reverseString(s);
     }
 
+    //using iteration
     //took 1 ms (95.5 percentile) and 45.9 MB (54.3 percentile)
     public static void reverseString(char[] s) {
         if(s.length > 1){
@@ -25,5 +26,19 @@ public class Main {
                 s[j--] = temp;
             }
         }
+    }
+    
+    //using recursion
+    //took 2 ms and 49.3 MB
+    public void reverseString1(char[] s){
+        helper(s, 0, s.length - 1);
+    }
+    public void helper(char[] arr, int start, int end){
+        if(start >= end) return;
+        
+        Character ch = arr[start];
+        arr[start++] = arr[end];
+        arr[end--] = ch;
+        helper(arr, start, end);
     }
 }
