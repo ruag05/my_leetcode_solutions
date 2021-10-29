@@ -110,4 +110,15 @@ public class MaximumDepthofBinaryTree {
         int rightMax = goDeep3(node.right);
         return Math.max(leftMax, rightMax) + 1;
     }
+    
+    //  time complexity: O(n)
+    //  space complexity: O(n) [taking system stack]
+    //[DFS - System Stack] For each node, go deep into its left and right child until the leaf is reached. For leaf, return
+    //0, otherwise return, max of value returned from left subtree and right subtree, plus 1 (for the distance of current root to root.left / root.right).
+    //took 0 ms (100 percentile) and 39 MB (61 percentile)
+    public int maxDepth6(TreeNode root) {
+        if(root == null) return 0;  
+      
+        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));     
+    } 
 }
