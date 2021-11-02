@@ -67,4 +67,23 @@ public class MergeTwoSortedLists {
         }
         return head.next;
     }
+    
+    ////////////////////approach#2////////////////////
+    
+    //  time complexity: O(n)
+    //  space complexity: O(n) (including recursion stack)
+    //took 0 ms (100 percentile) and 38.5 MB (67 percentile)
+    //[Recursion] Check the minimum of the heads of first and second list. Then, using recursion link it to the next minimum element
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if(l1 == null) return l2;
+        else if(l2 == null) return l1;
+        
+        if(l1.val <= l2.val){
+            l1.next = mergeTwoLists(l1.next, l2);
+            return l1;
+        } else{
+            l2.next = mergeTwoLists(l1, l2.next);
+            return l2;
+        }
+    }
 }
